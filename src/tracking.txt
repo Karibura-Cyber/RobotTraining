@@ -1,0 +1,16 @@
+#include <POP32.h>
+
+void setup(){
+    oled.clear();
+    oled.text(0,0, "READY");
+    oled.show();
+    waitSW_OK();
+    oled.clear();
+}
+
+void loop(){
+
+    if(analog(0) < 1000){ SR(30);} // ถ้า analog(0) น้อยกว่า 1000 -> หมุนขวา
+    else if(analog(4) < 1000){ SL(30); } // ถ้า analog(4) น้อยกว่า 1000 -> หมุนซ้าย
+    else{ FD(50); } // ถ้าไม่ใช่อะไรเลย -> ตรงไป
+}

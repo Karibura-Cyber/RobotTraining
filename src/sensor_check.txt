@@ -1,0 +1,16 @@
+void front_sensor_check(){
+    oled.clear();
+    oled.text(0,0,"LL: %d", analog(0));
+    oled.text(1,0,"L:  %d", analog(1));
+    oled.text(2,0,"C:  %d", analog(2));
+    oled.text(3,0,"R:  %d", analog(3));
+    oled.text(4,0,"RR: %d", analog(4));
+    oled.show();
+}
+
+void back_sensor_check(){
+    oled.clear();
+    oled.text(0,0,"BL: %d", analog(5));
+    oled.text(1,0,"BR:  %d", analog(6));
+    oled.show();
+}

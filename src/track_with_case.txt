@@ -1,0 +1,22 @@
+#include <POP32.h>
+int i = 1;
+
+void setup() {
+  oled.clear();
+  oled.text(0,0,"READY");
+  oled.show();
+
+  waitSW_OK();
+}
+
+void loop() {
+  if(analog(2) < 1000){
+    switch(i){
+      // ใส่เคสที่นี่
+    }
+    i++;
+  }
+  else if(analog(0) < 1000){ FD2(70, 30); }
+  else if(analog(4) < 1000){ FD2(30, 70); }
+  else{ FD(50); sleep(1); }
+}
