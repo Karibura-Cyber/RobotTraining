@@ -1,3 +1,4 @@
+// ฟังก์ชั่นเช็ค Sensor ข้างหน้า
 void front_sensor_check(){
     oled.clear();
     oled.text(0,0,"LL: %d", analog(0));
@@ -8,6 +9,7 @@ void front_sensor_check(){
     oled.show();
 }
 
+// ฟังก์ชั่นเช็ค Sensor ข้างหลัง
 void back_sensor_check(){
     oled.clear();
     oled.text(0,0,"BL: %d", analog(5));
