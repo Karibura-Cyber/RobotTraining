@@ -12,7 +12,7 @@
 </head>
 <body>
   <h1>1-Day Training Syllabus: 2-Sensor Line Following Robot</h1>
-  <a href="https://inex.co.th/store/software/Arduino1.8.16_Setup211210.exe">Download Arduino 1.8.16 (INEX Edition) *Optional*</a>
+    <a href="https://inex.co.th/store/software/Arduino1.8.16_Setup211210.exe">Download Arduino 1.8.16 (INEX Edition) *optional*</a>
   <section>
     <h2>Morning Session</h2>
 
@@ -29,6 +29,7 @@
 
 void setup() {
   OK(); // Wait until OK button pressed
+  glcdClear();
   glcd(0,0,"Start Training");
 }
 
@@ -49,7 +50,7 @@ void setup(){
 void loop(){
   L = analog(0); // Left sensor
   R = analog(1); // Right sensor
-
+  glcdClear();
   glcd(0,0,"L=%d",L);
   glcd(1,0,"R=%d",R);
   delay(200);
@@ -156,5 +157,4 @@ void loop(){
   </section>
 
 </body>
-
 </html>
