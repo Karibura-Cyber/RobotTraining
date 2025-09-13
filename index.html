@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>1-Day Training Syllabus: 2-Sensor Line Following Robot</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+    h1, h2, h3 { color: #004080; }
+    pre { background: #f4f4f4; padding: 10px; border-left: 4px solid #004080; }
+    section { margin-bottom: 40px; }
+  </style>
+</head>
+<body>
+  <h1>1-Day Training Syllabus: 2-Sensor Line Following Robot</h1>
+
+  <section>
+    <h2>Morning Session</h2>
+
+    <h3>Topic 1: Introduction to IPST-SE and Setup</h3>
+    <ul>
+      <li>Overview of IPST-SE board and components</li>
+      <li>Installing Arduino IDE and IPST-SE library</li>
+      <li>Basic program structure: <code>setup()</code> and <code>loop()</code></li>
+    </ul>
+
+    <h3>Topic 2: Using the OK Button</h3>
+    <p>The <code>OK()</code> function pauses execution until the OK button is pressed.</p>
+    <pre><code>#include &lt;ipst.h&gt;
+
+void setup() {
+  OK(); // Wait until OK button pressed
+  glcd(0,0,"Start Training");
+}
+
+void loop() {
+}
+</code></pre>
+
+    <h3>Topic 3: Reading Sensor Values</h3>
+    <p>Use <code>analog(channel)</code> to read sensor data (0–1023). For line tracking, connect left sensor to A0 and right sensor to A1.</p>
+    <pre><code>#include &lt;ipst.h&gt;
+
+int L, R;
+
+void setup(){
+  OK();
+}
+
+void loop(){
+  L = analog(0); // Left sensor
+  R = analog(1); // Right sensor
+
+  glcd(0,0,"L=%d",L);
+  glcd(1,0,"R=%d",R);
+  delay(200);
+}
+</code></pre>
+
+    <h3>Topic 4: Sensor Calibration & Thresholds</h3>
+    <ul>
+      <li>Find sensor values on white and black surfaces</li>
+      <li>Set a midpoint threshold for detection</li>
+    </ul>
+    <pre><code>int threshold = (450 + 50)/2; // Example calibration
+
+if(L &lt; threshold) { /* left on black */ }
+</code></pre>
+  </section>
+
+  <section>
+    <h2>Afternoon Session</h2>
+
+    <h3>Topic 5: Motor Control Basics</h3>
+    <ul>
+      <li>Moving forward: <code>fd(speed)</code></li>
+      <li>Turning left/right: <code>sl(speed)</code>, <code>sr(speed)</code></li>
+      <li>Stopping: <code>ao()</code></li>
+    </ul>
+
+    <h3>Topic 6: Basic 2-Sensor Line Tracking</h3>
+    <pre><code>#include &lt;ipst.h&gt;
+
+int L, R;
+
+void setup(){
+  OK();
+}
+
+void loop(){
+  L = analog(0);
+  R = analog(1);
+
+  if(L > 250 && R > 250){
+    fd(80); // Both white → forward
+  }
+  else if(L < 250 && R > 250){
+    sl(80); // Left black, right white → turn left
+  }
+  else if(L > 250 && R < 250){
+    sr(80); // Right black, left white → turn right
+  }
+  else {
+    fd(60); // Both black → junction → forward slowly
+  }
+}
+</code></pre>
+
+    <h3>Topic 7: Handling Junctions & Crossings</h3>
+    <p>At intersections, the robot can beep or make a turn.</p>
+    <pre><code>if(L < 250 && R < 250){
+  sound(16,500,200);
+  fd(60); delay(200);
+}
+</code></pre>
+
+    <h3>Topic 8: Turning 90° with Functions</h3>
+    <p>Create reusable functions for sharp turns at intersections.</p>
+    <pre><code>void R90(){
+  fd(60);
+  sound(16,1500,100);
+  while(analog(1) > 250){ sr(60); }
+  while(analog(1) < 250){ sr(60); }
+}
+</code></pre>
+
+    <h3>Topic 9: Adding Sound & Display Feedback</h3>
+    <ul>
+      <li>Use <code>beep()</code> or <code>sound()</code> to confirm sensor events</li>
+      <li>Display <code>L</code> and <code>R</code> values on GLCD for debugging</li>
+    </ul>
+
+    <h3>Topic 10: Speed Control & Smooth Turning</h3>
+    <p>Adjust motor speeds to reduce wobble.</p>
+    <pre><code>if(L < 250 && R > 250){
+  motor(1,40); motor(2,80); // Smooth left turn
+}
+</code></pre>
+
+    <h3>Topic 11: Stop at Goal Line</h3>
+    <p>Robot stops completely when detecting a finish line (both black).</p>
+    <pre><code>if(L < 250 && R < 250){
+  ao();
+  glcd(1,1,"Goal!");
+  while(1); // Stop forever
+}
+</code></pre>
+  </section>
+
+  <section>
+    <h2>Wrap-Up</h2>
+    <ul>
+      <li>Review of sensor calibration, motor control, and logic</li>
+      <li>Hands-on practice building a complete line-following robot</li>
+      <li>Extensions: 3-sensor tracking, advanced maze solving</li>
+    </ul>
+  </section>
+
+</body>
+</html>
